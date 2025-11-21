@@ -160,7 +160,8 @@ const CardNav = ({
         if (!isExpanded) {
             setIsHamburgerOpen(true);
             setIsExpanded(true);
-            tl.play();
+            // Force restart from beginning to ensure items are visible
+            tl.restart();
         } else {
             closeMenu();
         }

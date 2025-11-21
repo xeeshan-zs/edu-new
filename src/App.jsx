@@ -7,7 +7,11 @@ import DashboardOverview from './components/dashboard/Dashboard.jsx';
 import SchoolManagement from './components/schools/SchoolManagement.jsx';
 import VendorManagement from './components/vendors/VendorManagement.jsx';
 import UserManagement from './components/users/UserManagement.jsx';
+import TeacherManagement from './components/teachers/TeacherManagement.jsx';
+import Admissions from './components/admissions/Admissions.jsx';
+import JobPosts from './components/jobs/JobPosts.jsx';
 import Reports from './components/reports/Reports.jsx';
+import Support from './components/support/Support.jsx';
 import { Communication as CommunicationCenter } from './components/Communication.jsx';
 import Settings from './components/settings/Settings.jsx';
 import { useAuth } from './context/AuthContext.jsx';
@@ -160,8 +164,8 @@ function App() {
                     <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
                     {/* Protected Admin Routes - Nested structure with ProtectedRoute and DashboardLayout */}
-                    <Route 
-                        path="/dashboard" 
+                    <Route
+                        path="/dashboard"
                         element={<ProtectedRoute allowedRoles={['admin']} />}
                     >
                         {/* DashboardLayout wraps all dashboard child routes */}
@@ -170,7 +174,11 @@ function App() {
                             <Route path="schools" element={<SchoolManagement />} />
                             <Route path="vendors" element={<VendorManagement />} />
                             <Route path="users" element={<UserManagement />} />
+                            <Route path="teachers" element={<TeacherManagement />} />
+                            <Route path="admissions" element={<Admissions />} />
+                            <Route path="jobs" element={<JobPosts />} />
                             <Route path="reports" element={<Reports />} />
+                            <Route path="support" element={<Support />} />
                             <Route path="communication" element={<CommunicationCenter />} />
                             <Route path="settings" element={<Settings />} />
                         </Route>

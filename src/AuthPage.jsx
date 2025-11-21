@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import './AuthPage.css';
-import { FaGoogle, FaGithub, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import { FaGoogle, FaGithub, FaSignInAlt, FaUserPlus, FaEye, FaEyeSlash, FaArrowLeft } from 'react-icons/fa';
 import { useAuth } from './context/AuthContext.jsx';
 
 // --- MOCK CREDENTIALS FOR DEVELOPMENT ---
@@ -16,6 +16,7 @@ const AuthPage = ({ defaultView = 'login' }) => {
     const [isLoginView, setIsLoginView] = useState(defaultView !== 'signup');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [loginError, setLoginError] = useState('');
     const [currentStep] = useState(1);
     const [role, setRole] = useState('admin'); // Default role
@@ -39,7 +40,11 @@ const AuthPage = ({ defaultView = 'login' }) => {
     };
 
     const handleLogin = (credentials) => {
-        // Authenticate user
+        // API INTEGRATION PLACEHOLDER:
+        // Replace this with actual API call to backend
+        // e.g., axios.post('/api/auth/login', { email, password, role })
+
+        // Authenticate user (mock)
         login({ email: credentials.email, role: role }); // Use selected role
 
         // Redirect to intended destination or default to '/dashboard'
@@ -73,149 +78,174 @@ const AuthPage = ({ defaultView = 'login' }) => {
         }
     };
 
-    // 1. Right Panel Content (Form)
-    const renderRightPanelContent = () => {
-        if (isLoginView) {
-            return (
-                <div className="form-container login-form-container">
-                    <form className="login-form" onSubmit={handleLoginSubmit}>
-                        <h2>Welcome Back!</h2>
-                        <p className="form-subtitle">Log in to continue your journey with EduConnect.</p>
-
-                        <div className="social-login-container">
-                            <button type="button" className="social-login-btn google">
-                                <FaGoogle className="social-icon" /> Google
-                            </button>
-                            <button type="button" className="social-login-btn github">
-                                <FaGithub className="social-icon" /> Github
-                            </button>
-                        </div>
-
-                        <div className="or-divider">Or</div>
-
-                        {/* Role Selection */}
-                        <div className="role-selection-container" style={{ marginBottom: '15px', width: '100%' }}>
-                            <select
-                                value={role}
-                                onChange={(e) => setRole(e.target.value)}
-                                className="role-select"
-                                style={{
-                                    width: '100%',
-                                    padding: '12px 15px',
-                                    borderRadius: '8px',
-                                    border: '1px solid #ddd',
-                                    backgroundColor: '#f7f9fc',
-                                    color: '#333',
-                                    fontSize: '14px',
-                                    outline: 'none',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                <option value="admin">Super Admin</option>
-                                <option value="school">School Administrator</option>
-                                <option value="teacher">Teacher</option>
-                                <option value="parent">Parent</option>
-                                <option value="vendor">Vendor</option>
-                            </select>
-                        </div>
-
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-
-                        {loginError && <p className="login-error-message">{loginError}</p>}
-
-                        <div className="forgot-password-link">
-                            <a href="#" onClick={(e) => e.preventDefault()}>Forgot Password?</a>
-                        </div>
-
-                        <button type="submit" className="login-submit-btn">
-                            <FaSignInAlt className="submit-icon" /> Log In
-                        </button>
-
-                        <p className="signup-link-text">
-                            Don't have an account?
-                            <a href="#" onClick={() => toggleView(false)}> Sign Up</a>
-                        </p>
-                    </form>
-                </div>
-            );
-        } else {
-            return (
-                <div className="form-container signup-form-container">
-                    <form className="signup-form" onSubmit={(e) => e.preventDefault()}>
-                        <h2>Sign Up Account</h2>
-                        <p className="form-subtitle">Enter your personal data to create your account.</p>
-
-                        <div className="social-login-container">
-                            <button type="button" className="social-login-btn google">
-                                <FaGoogle className="social-icon" /> Google
-                            </button>
-                            <button type="button" className="social-login-btn github">
-                                <FaGithub className="social-icon" /> Github
-                            </button>
-                        </div>
-
-                        <div className="or-divider">Or</div>
-
-                        {/* Role Selection for Signup */}
-                        <div className="role-selection-container" style={{ marginBottom: '15px', width: '100%' }}>
-                            <select
-                                value={role}
-                                onChange={(e) => setRole(e.target.value)}
-                                className="role-select"
-                                style={{
-                                    width: '100%',
-                                    padding: '12px 15px',
-                                    borderRadius: '8px',
-                                    border: '1px solid #ddd',
-                                    backgroundColor: '#f7f9fc',
-                                    color: '#333',
-                                    fontSize: '14px',
-                                    outline: 'none',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                <option value="admin">Super Admin</option>
-                                <option value="school">School Administrator</option>
-                                <option value="teacher">Teacher</option>
-                                <option value="parent">Parent</option>
-                                <option value="vendor">Vendor</option>
-                            </select>
-                        </div>
-
-                        <div className="name-fields">
-                            <input type="text" placeholder="First Name" required />
-                            <input type="text" placeholder="Last Name" required />
-                        </div>
-                        <input type="email" placeholder="Email" required />
-                        <input type="password" placeholder="Password" required />
-                        <small>Must be at least 8 characters.</small>
-
-                        <button type="submit" className="signup-submit-btn">
-                            <FaUserPlus className="submit-icon" /> Sign Up
-                        </button>
-
-                        <p className="login-link-text">
-                            Already have an account?
-                            <a href="#" onClick={() => toggleView(true)}> Log In</a>
-                        </p>
-                    </form>
-                </div>
-            );
-        }
+    const handleSignupSubmit = (e) => {
+        e.preventDefault();
+        // API INTEGRATION PLACEHOLDER:
+        // Replace with actual signup API call
+        // e.g., axios.post('/api/auth/signup', { ...formData })
+        console.log("Signup submitted");
     };
+
+    const renderLoginForm = () => (
+        <div className="form-container login-form-container">
+            <form className="login-form" onSubmit={handleLoginSubmit}>
+                <h2>Welcome Back!</h2>
+                <p className="form-subtitle">Log in to continue your journey with EduConnect.</p>
+
+                <div className="social-login-container">
+                    <button type="button" className="social-login-btn google">
+                        <FaGoogle className="social-icon" /> Google
+                    </button>
+                    <button type="button" className="social-login-btn github">
+                        <FaGithub className="social-icon" /> Github
+                    </button>
+                </div>
+
+                <div className="or-divider">Or</div>
+
+                {/* Role Selection */}
+                <div className="role-selection-container" style={{ marginBottom: '15px', width: '100%' }}>
+                    <select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        className="role-select"
+                    >
+                        <option value="admin">Super Admin</option>
+                        <option value="school">School Administrator</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="parent">Parent</option>
+                        <option value="vendor">Vendor</option>
+                    </select>
+                </div>
+
+                <input
+                    type="email"
+                    placeholder="Email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <div className="password-input-wrapper" style={{ position: 'relative', width: '100%' }}>
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={{ width: '100%' }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                            position: 'absolute',
+                            right: '15px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: '#999'
+                        }}
+                    >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                </div>
+
+                {loginError && <p className="login-error-message">{loginError}</p>}
+
+                <div className="forgot-password-link">
+                    <a href="#" onClick={(e) => e.preventDefault()}>Forgot Password?</a>
+                </div>
+
+                <button type="submit" className="login-submit-btn">
+                    <FaSignInAlt className="submit-icon" /> Log In
+                </button>
+
+                <p className="signup-link-text">
+                    Don't have an account?
+                    <a href="#" onClick={(e) => { e.preventDefault(); toggleView(false); }}> Sign Up</a>
+                </p>
+            </form>
+        </div>
+    );
+
+    const renderSignupForm = () => (
+        <div className="form-container signup-form-container">
+            <form className="signup-form" onSubmit={handleSignupSubmit}>
+                <h2>Create Account</h2>
+                <p className="form-subtitle">Enter your personal data to create your account.</p>
+
+                <div className="social-login-container">
+                    <button type="button" className="social-login-btn google">
+                        <FaGoogle className="social-icon" /> Google
+                    </button>
+                    <button type="button" className="social-login-btn github">
+                        <FaGithub className="social-icon" /> Github
+                    </button>
+                </div>
+
+                <div className="or-divider">Or</div>
+
+                {/* Role Selection for Signup */}
+                <div className="role-selection-container" style={{ marginBottom: '15px', width: '100%' }}>
+                    <select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        className="role-select"
+                    >
+                        <option value="admin">Super Admin</option>
+                        <option value="school">School Administrator</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="parent">Parent</option>
+                        <option value="vendor">Vendor</option>
+                    </select>
+                </div>
+
+                <div className="name-fields">
+                    <input type="text" placeholder="First Name" required />
+                    <input type="text" placeholder="Last Name" required />
+                </div>
+                <input type="email" placeholder="Email" required />
+
+                <div className="password-input-wrapper" style={{ position: 'relative', width: '100%' }}>
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        required
+                        style={{ width: '100%' }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                            position: 'absolute',
+                            right: '15px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: '#999'
+                        }}
+                    >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                </div>
+                <small>Must be at least 8 characters.</small>
+
+                <button type="submit" className="signup-submit-btn">
+                    <FaUserPlus className="submit-icon" /> Sign Up
+                </button>
+
+                <p className="login-link-text">
+                    Already have an account?
+                    <a href="#" onClick={(e) => { e.preventDefault(); toggleView(true); }}> Log In</a>
+                </p>
+            </form>
+        </div>
+    );
 
     // 2. Left Panel Content (Steps/Text)
     const renderLeftPanelContent = () => {
@@ -262,9 +292,27 @@ const AuthPage = ({ defaultView = 'login' }) => {
 
     return (
         <div className="auth-page-wrapper dark-theme">
-            <div className="auth-card-container">
+            <button
+                className="back-to-home-btn"
+                onClick={() => navigate('/')}
+                title="Back to Landing Page"
+            >
+                <FaArrowLeft size={20} />
+            </button>
+
+            <div className={`auth-card-container ${!isLoginView ? 'right-panel-active' : ''}`}>
+                {/* Sign Up Form */}
+                <div className={`form-section signup-active`}>
+                    {renderSignupForm()}
+                </div>
+
+                {/* Login Form */}
+                <div className={`form-section login-active`}>
+                    {renderLoginForm()}
+                </div>
+
                 {/* Overlay Container */}
-                <div className={`overlay-container ${isLoginView ? '' : 'overlay-active'}`}>
+                <div className={`overlay-container ${!isLoginView ? 'overlay-active' : ''}`}>
                     <div className="overlay">
                         <div className="overlay-panel overlay-left">
                             {renderLeftPanelContent()}
@@ -273,11 +321,6 @@ const AuthPage = ({ defaultView = 'login' }) => {
                             {renderLeftPanelContent()}
                         </div>
                     </div>
-                </div>
-
-                {/* Form Sections */}
-                <div className={`form-section ${isLoginView ? 'login-active' : 'signup-active'}`}>
-                    {renderRightPanelContent()}
                 </div>
             </div>
         </div>

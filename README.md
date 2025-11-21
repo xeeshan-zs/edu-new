@@ -1,41 +1,16 @@
-EduConnect — Connecting the Education Ecosystem
+# React + Vite
 
-EduConnect is a unified platform designed to bridge the gap between schools, teachers, parents, and vendors — simplifying the admission process, job opportunities, and school-related services.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-🚀 Key Features
+Currently, two official plugins are available:
 
-Interactive map to explore nearby schools with real-time admission status
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Online admission applications and school comparisons
+## React Compiler
 
-Teacher job portal with CV uploads and smart job alerts
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Verified vendor listings for uniforms, books, and school supplies
+## Expanding the ESLint configuration
 
-School dashboards to manage admissions, jobs, and communication
-
-Super Admin portal for system-wide management and analytics
-
-🧠 Tech Stack
-
-Frontend: React.js, Tailwind CSS, JavaScript
-
-Backend: Node.js, Express.js
-
-Database: Firebase
-
-Authentication: Firebase Oauth
-
-Deployment: Firebase deployment
-
-🏗️ Structure
-
-frontend/ — React app for all role-based dashboards and landing page
-
-backend/ — Express server and API routes
-
-docs/ — Project documentation and diagrams
-
-💡 Vision
-
-EduConnect aims to create a seamless ecosystem that connects every stakeholder in the education journey — making school admissions, teacher hiring, and vendor management transparent and efficient.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

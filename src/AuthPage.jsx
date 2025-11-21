@@ -18,6 +18,7 @@ const AuthPage = ({ defaultView = 'login' }) => {
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('');
     const [currentStep] = useState(1);
+    const [role, setRole] = useState('admin'); // Default role
 
     // Redirect if already authenticated - prevents authenticated users from accessing login page
     useEffect(() => {
@@ -39,8 +40,8 @@ const AuthPage = ({ defaultView = 'login' }) => {
 
     const handleLogin = (credentials) => {
         // Authenticate user
-        login({ email: credentials.email, role: 'admin' });
-        
+        login({ email: credentials.email, role: role }); // Use selected role
+
         // Redirect to intended destination or default to '/dashboard'
         const from = location.state?.from?.pathname || '/dashboard';
         navigate(from, { replace: true });
@@ -55,12 +56,13 @@ const AuthPage = ({ defaultView = 'login' }) => {
         const trimmedPassword = password.trim();
 
         // Debug logging (remove in production)
-        console.log('Login attempt:', { 
-            enteredEmail: trimmedEmail, 
+        console.log('Login attempt:', {
+            enteredEmail: trimmedEmail,
             expectedEmail: ADMIN_EMAIL,
             emailMatch: trimmedEmail === ADMIN_EMAIL,
             enteredPassword: trimmedPassword ? '***' : '(empty)',
-            passwordMatch: trimmedPassword === ADMIN_PASSWORD
+            passwordMatch: trimmedPassword === ADMIN_PASSWORD,
+            role: role
         });
 
         if (trimmedEmail === ADMIN_EMAIL && trimmedPassword === ADMIN_PASSWORD) {
@@ -90,6 +92,32 @@ const AuthPage = ({ defaultView = 'login' }) => {
                         </div>
 
                         <div className="or-divider">Or</div>
+
+                        {/* Role Selection */}
+                        <div className="role-selection-container" style={{ marginBottom: '15px', width: '100%' }}>
+                            <select
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                className="role-select"
+                                style={{
+                                    width: '100%',
+                                    padding: '12px 15px',
+                                    borderRadius: '8px',
+                                    border: '1px solid #ddd',
+                                    backgroundColor: '#f7f9fc',
+                                    color: '#333',
+                                    fontSize: '14px',
+                                    outline: 'none',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <option value="admin">Super Admin</option>
+                                <option value="school">School Administrator</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="parent">Parent</option>
+                                <option value="vendor">Vendor</option>
+                            </select>
+                        </div>
 
                         <input
                             type="email"
@@ -140,6 +168,32 @@ const AuthPage = ({ defaultView = 'login' }) => {
                         </div>
 
                         <div className="or-divider">Or</div>
+
+                        {/* Role Selection for Signup */}
+                        <div className="role-selection-container" style={{ marginBottom: '15px', width: '100%' }}>
+                            <select
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                className="role-select"
+                                style={{
+                                    width: '100%',
+                                    padding: '12px 15px',
+                                    borderRadius: '8px',
+                                    border: '1px solid #ddd',
+                                    backgroundColor: '#f7f9fc',
+                                    color: '#333',
+                                    fontSize: '14px',
+                                    outline: 'none',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <option value="admin">Super Admin</option>
+                                <option value="school">School Administrator</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="parent">Parent</option>
+                                <option value="vendor">Vendor</option>
+                            </select>
+                        </div>
 
                         <div className="name-fields">
                             <input type="text" placeholder="First Name" required />

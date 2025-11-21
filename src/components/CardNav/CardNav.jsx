@@ -1,27 +1,27 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { GoArrowUpRight } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom'; // <--- 1. NEW IMPORT
+import { useNavigate } from 'react-router-dom';
 import './CardNav.css';
 
 const CardNav = ({
-                     logo,
-                     logoAlt = 'Logo',
-                     items,
-                     className = '',
-                     ease = 'power3.out',
-                     baseColor = '#1e293b',
-                     menuColor,
-                     buttonBgColor = '#66a1be',
-                     buttonTextColor = '#ffffff',
-                     platformName = 'EduConnect'
-                 }) => {
+    logo,
+    logoAlt = 'Logo',
+    items,
+    className = '',
+    ease = 'power3.out',
+    baseColor = '#1e293b',
+    menuColor,
+    buttonBgColor = '#66a1be',
+    buttonTextColor = '#ffffff',
+    platformName = 'EduConnect'
+}) => {
     const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const navRef = useRef(null);
     const cardsRef = useRef([]);
     const tlRef = useRef(null);
-    const navigate = useNavigate(); // <--- 2. INITIALIZE HOOK
+    const navigate = useNavigate();
 
     // Calculates the required height for the expanded navigation bar,
     // crucial for handling auto-calculated scroll height on mobile.
@@ -126,19 +126,51 @@ const CardNav = ({
         return () => window.removeEventListener('resize', handleResize);
     }, [isExpanded]);
 
+    // Click Outside Handler
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isExpanded && navRef.current && !navRef.current.contains(event.target)) {
+                closeMenu();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isExpanded]);
+
+    const closeMenu = () => {
+        const tl = tlRef.current;
+        if (tl && isExpanded) {
+            setIsHamburgerOpen(false);
+            tl.eventCallback('onReverseComplete', () => {
+                setIsExpanded(false);
+                // Reset timeline to ensure it's ready for next open
+                tl.eventCallback('onReverseComplete', null);
+            });
+            tl.reverse();
+        }
+    };
+
     const toggleMenu = () => {
         const tl = tlRef.current;
         if (!tl) return;
+
         if (!isExpanded) {
             setIsHamburgerOpen(true);
             setIsExpanded(true);
-            tl.play(0);
+            tl.play();
         } else {
-            setIsHamburgerOpen(false);
-            // Set callback to flip isExpanded *after* the animation finishes reversing
-            tl.eventCallback('onReverseComplete', () => setIsExpanded(false));
-            tl.reverse();
+            closeMenu();
         }
+    };
+
+    const handleLinkClick = (e, link) => {
+        if (link.onClick) {
+            link.onClick(e);
+        }
+        closeMenu();
     };
 
     const setCardRef = i => el => {
@@ -174,7 +206,7 @@ const CardNav = ({
                         type="button"
                         className="card-nav-cta-button"
                         style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-                        onClick={() => navigate('/login')} // <--- 3. CTA BUTTON HANDLER
+                        onClick={() => navigate('/login')}
                     >
                         Get Started
                     </button>
@@ -199,7 +231,7 @@ const CardNav = ({
                                         className="nav-card-link"
                                         href={lnk.href}
                                         aria-label={lnk.ariaLabel}
-                                        onClick={lnk.onClick} // <--- 4. DROPDOWN LINK HANDLER
+                                        onClick={(e) => handleLinkClick(e, lnk)}
                                     >
                                         <GoArrowUpRight className="nav-card-link-icon" aria-hidden="true" />
                                         {lnk.label}

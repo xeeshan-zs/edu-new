@@ -7,7 +7,7 @@ import DashboardOverview from './components/dashboard/Dashboard.jsx';
 import SchoolManagement from './components/schools/SchoolManagement.jsx';
 import VendorManagement from './components/vendors/VendorManagement.jsx';
 import UserManagement from './components/users/UserManagement.jsx';
-import Analytics from './components/analytics/Analytics.jsx';
+import Reports from './components/reports/Reports.jsx';
 import { Communication as CommunicationCenter } from './components/Communication.jsx';
 import Settings from './components/settings/Settings.jsx';
 import { useAuth } from './context/AuthContext.jsx';
@@ -170,7 +170,7 @@ function App() {
                             <Route path="schools" element={<SchoolManagement />} />
                             <Route path="vendors" element={<VendorManagement />} />
                             <Route path="users" element={<UserManagement />} />
-                            <Route path="analytics" element={<Analytics />} />
+                            <Route path="reports" element={<Reports />} />
                             <Route path="communication" element={<CommunicationCenter />} />
                             <Route path="settings" element={<Settings />} />
                         </Route>

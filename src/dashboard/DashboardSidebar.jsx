@@ -24,7 +24,7 @@ const navItems = [
   { id: 'teachers', label: 'Teachers', icon: UserCheck, to: '/dashboard/teachers', color: '#EF4444' },
   { id: 'admissions', label: 'Admissions', icon: GraduationCap, to: '/dashboard/admissions', color: '#06B6D4' },
   { id: 'job-posts', label: 'Job Posts', icon: Briefcase, to: '/dashboard/jobs', color: '#EC4899' },
-  { id: 'reports', label: 'Reports & Analytics', icon: BarChart3, to: '/dashboard/analytics', color: '#10B981' },
+  { id: 'reports', label: 'Reports & Analytics', icon: BarChart3, to: '/dashboard/reports', color: '#10B981' },
   { id: 'support', label: 'Support & Tickets', icon: MessageSquare, to: '/dashboard/communication', color: '#F97316' },
   { id: 'settings', label: 'System Settings', icon: Settings, to: '/dashboard/settings', color: '#6B7280' },
 ];

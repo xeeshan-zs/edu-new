@@ -7,7 +7,7 @@ const navigation = [
   { name: 'Schools', href: '/schools', icon: School },
   { name: 'Vendors', href: '/vendors', icon: Store },
   { name: 'Users', href: '/users', icon: Users },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
+  { name: 'Reports', href: '/reports', icon: BarChart3 },
   { name: 'Support', href: '/support', icon: MessageSquare },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
